@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Teya Take Home Assignment"
 include(":app")
- 
+include(":core")
+include(":features:albums:albums-api")
+include(":features:albums:albums-impl")

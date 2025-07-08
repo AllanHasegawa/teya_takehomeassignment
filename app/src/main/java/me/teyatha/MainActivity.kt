@@ -1,4 +1,4 @@
-package me.teyatha.teyatakehomeassignment
+package me.teyatha
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,18 +11,35 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import me.teyatha.teyatakehomeassignment.ui.theme.TeyaTakeHomeAssignmentTheme
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.ui.NavDisplay
+import dagger.hilt.android.AndroidEntryPoint
+import me.teyatha.core.EntryProviderInstaller
+import me.teyatha.core.Navigator
+import me.teyatha.theme.TeyaTakeHomeAssignmentTheme
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var navigator: Navigator
+
+    @Inject
+    lateinit var entryProviderBuilders: Set<@JvmSuppressWildcards EntryProviderInstaller>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             TeyaTakeHomeAssignmentTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    NavDisplay(
+                        backStack = navigator.backStack,
+                        modifier = Modifier.padding(innerPadding),
+                        onBack = { navigator.goBack() },
+                        entryProvider = entryProvider {
+                            entryProviderBuilders.forEach { builder -> this.builder() }
+                        }
                     )
                 }
             }
@@ -41,7 +58,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    TeyaTakeHomeAssignmentTheme {
+    _root_ide_package_.me.teyatha.theme.TeyaTakeHomeAssignmentTheme {
         Greeting("Android")
     }
 }

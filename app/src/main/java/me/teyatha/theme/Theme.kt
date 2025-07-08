@@ -1,4 +1,4 @@
-package me.teyatha.teyatakehomeassignment.ui.theme
+package me.teyatha.theme
 
 import android.app.Activity
 import android.os.Build
