@@ -14,5 +14,5 @@ object AppModule {
 
     @Provides
     @ActivityRetainedScoped
-    fun provideNavigator() : Navigator = Navigator(startDestination = AlbumsListScreen)
+    fun navigator(): Navigator = Navigator(startDestination = AlbumsListScreen)
 }
