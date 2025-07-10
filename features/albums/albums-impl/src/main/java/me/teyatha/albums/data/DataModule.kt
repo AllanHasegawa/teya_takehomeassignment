@@ -7,6 +7,8 @@ import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.http.ContentType
+import io.ktor.serialization.kotlinx.KotlinxSerializationConverter
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -17,9 +19,15 @@ internal object DataModule {
     fun httpClient() = HttpClient(OkHttp) {
         followRedirects = true
         install(ContentNegotiation) {
-            json(Json {
+            val json = Json {
                 prettyPrint = true
-            })
+                isLenient = true
+            }
+            register(
+                contentType = ContentType.Text.JavaScript,
+                converter = KotlinxSerializationConverter(json)
+            )
+            json(json)
         }
     }
 }

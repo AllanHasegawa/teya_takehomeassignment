@@ -1,14 +1,11 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
-    namespace = "me.teyatha.albums"
+    namespace = "me.teyatha.ds"
     compileSdk = 36
 
     defaultConfig {
@@ -40,30 +37,19 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":ds"))
-    implementation(project(":features:albums:albums-api"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.hilt.core)
-    implementation(libs.androidx.ui.tooling.preview.android)
-    ksp(libs.hilt.compiler)
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui.tooling.preview.android)
     implementation(libs.androidx.lifecycle.compose)
     implementation(libs.androidx.runtime)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.material3)
     implementation(libs.material)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.ktor.client.okhttp)
-    implementation(libs.ktor.client.contentnegotiation)
-    implementation(libs.ktor.client.json)
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network)
 
     testImplementation(libs.junit)
-    testImplementation(kotlin("test"))
-
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    debugImplementation(libs.ui.tooling)
 }

@@ -9,7 +9,7 @@ import dagger.multibindings.IntoSet
 import me.teyatha.albums.navigation.AlbumDetailsScreen
 import me.teyatha.albums.navigation.AlbumsListScreen
 import me.teyatha.albums.ui.albumdetails.AlbumDetailsComposable
-import me.teyatha.albums.ui.albumslist.AlbumsListComposable
+import me.teyatha.albums.ui.albumslist.AlbumsListPage
 import me.teyatha.core.EntryProviderInstaller
 import me.teyatha.core.Navigator
 
@@ -20,7 +20,7 @@ internal object UiModule {
     @Provides
     fun entryProviderInstaller(navigator: Navigator): EntryProviderInstaller = {
         entry<AlbumsListScreen> {
-            AlbumsListComposable(
+            AlbumsListPage(
                 onAlbumClick = { navigator.goTo(AlbumDetailsScreen("123")) })
         }
 
