@@ -73,6 +73,12 @@ class FeedResponseSerializerTest {
                                 "label" to "October 14, 1985"
                             )
                         ),
+                        id = PropertyResponse(
+                            label = "https://music.apple.com/us/album/songs-you-know-by-heart-jimmy-buffetts-greatest-hit-s/1440673653?uo=2",
+                            attributes = mapOf(
+                                "im:id" to "1440673653",
+                            )
+                        )
                     ),
                 )
             )

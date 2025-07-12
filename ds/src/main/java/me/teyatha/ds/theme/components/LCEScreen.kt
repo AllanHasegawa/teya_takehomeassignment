@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import me.teyatha.core.LCE
+import me.teyatha.ds.Dimensions
 import me.teyatha.ds.R
 import me.teyatha.ds.theme.Typography
 
@@ -34,7 +36,9 @@ fun <T> LCEScreen(
         }
 
         is LCE.Error -> {
-            Box(Modifier.fillMaxSize()) {
+            Box(Modifier
+                .fillMaxSize()
+                .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()

@@ -43,6 +43,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":ds"))
     implementation(project(":features:albums:albums-api"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.hilt.core)
@@ -63,6 +64,9 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))
+    testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
+    testImplementation(libs.kotlin.coroutines.test)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
