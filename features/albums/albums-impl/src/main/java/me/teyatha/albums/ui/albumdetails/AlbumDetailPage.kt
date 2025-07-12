@@ -20,9 +20,9 @@ import coil3.compose.AsyncImage
 import dagger.hilt.android.lifecycle.withCreationCallback
 import me.teyatha.albums.R
 import me.teyatha.albums.navigation.AlbumDetailsScreen
-import me.teyatha.albums.ui.albumdetails.AlbumDetailsViewModel.ViewState
 import me.teyatha.ds.Dimensions
 import me.teyatha.ds.theme.Typography
+import me.teyatha.ds.theme.components.LCEScreen
 import me.teyatha.ds.theme.components.NavigationItem
 import me.teyatha.ds.theme.components.PropertyItem
 
@@ -35,74 +35,71 @@ fun AlbumDetailPage(
         LocalViewModelStoreOwner.current as? HasDefaultViewModelProviderFactory
     )
     val viewModel: AlbumDetailsViewModel = viewModel(
-        extras =
-            viewModelStoreOwner
-                .defaultViewModelCreationExtras
-                .withCreationCallback<AlbumDetailsViewModel.Factory> { factory ->
-                    factory.create(albumId = key.albumId)
-                }
-    )
+        key = key.albumId,
+        extras = viewModelStoreOwner.defaultViewModelCreationExtras.withCreationCallback<AlbumDetailsViewModel.Factory> { factory ->
+            factory.create(albumId = key.albumId)
+        })
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val uriHandler = LocalUriHandler.current
 
-    val album = (state as? ViewState.Content)?.album
-        ?: return
-
     Scaffold { contentPadding ->
-        LazyColumn(Modifier.consumeWindowInsets(contentPadding)) {
-            item {
-                AsyncImage(
-                    modifier = Modifier.fillMaxWidth(),
-                    model = album.images.maxBy { it.heightPx }.url,
-                    contentDescription = null,
-                    contentScale = ContentScale.FillWidth,
-                )
-            }
-            item {
-                Text(
-                    modifier = Modifier
-                        .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)
-                        .padding(top = 16.dp),
-                    text = album.name,
-                    style = Typography.displayLarge,
-                )
-            }
-            item {
-                Text(
-                    modifier = Modifier
-                        .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)
-                        .padding(top = 8.dp, bottom = 32.dp),
-                    text = album.artist,
-                    style = Typography.bodyLarge,
-                )
-            }
-            item {
-                PropertyItem(
-                    modifier = Modifier
-                        .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)
-                        .padding(vertical = 8.dp),
-                    title = stringResource(R.string.property_price_title),
-                    label = album.priceFormatted
-                )
-            }
-            item {
-                PropertyItem(
-                    modifier = Modifier
-                        .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)
-                        .padding(vertical = 8.dp),
-                    title = stringResource(R.string.property_release_title),
-                    label = album.releaseDateFormatted
-                )
-            }
-            item {
-                NavigationItem(
-                    modifier = Modifier
-                        .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)
-                        .padding(vertical = 8.dp),
-                    text = stringResource(R.string.property_link_title),
-                    onClick = { uriHandler.openUri(album.link) },
-                    icon = me.teyatha.ds.R.drawable.ic_chevron_right,
-                )
+        LCEScreen(
+            lce = state,
+            onErrorRetry = { viewModel.onErrorRetry() }) { album ->
+            LazyColumn(Modifier.consumeWindowInsets(contentPadding)) {
+                item {
+                    AsyncImage(
+                        modifier = Modifier.fillMaxWidth(),
+                        model = album.images.maxBy { it.heightPx }.url,
+                        contentDescription = null,
+                        contentScale = ContentScale.FillWidth,
+                    )
+                }
+                item {
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)
+                            .padding(top = 16.dp),
+                        text = album.name,
+                        style = Typography.displayLarge,
+                    )
+                }
+                item {
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)
+                            .padding(top = 8.dp, bottom = 32.dp),
+                        text = album.artist,
+                        style = Typography.bodyLarge,
+                    )
+                }
+                item {
+                    PropertyItem(
+                        modifier = Modifier
+                            .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)
+                            .padding(vertical = 8.dp),
+                        title = stringResource(R.string.property_price_title),
+                        label = album.priceFormatted
+                    )
+                }
+                item {
+                    PropertyItem(
+                        modifier = Modifier
+                            .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)
+                            .padding(vertical = 8.dp),
+                        title = stringResource(R.string.property_release_title),
+                        label = album.releaseDateFormatted
+                    )
+                }
+                item {
+                    NavigationItem(
+                        modifier = Modifier
+                            .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING),
+                        text = stringResource(R.string.property_link_title),
+                        onClick = { uriHandler.openUri(album.link) },
+                        icon = me.teyatha.ds.R.drawable.ic_chevron_right,
+                    )
+                }
             }
         }
     }

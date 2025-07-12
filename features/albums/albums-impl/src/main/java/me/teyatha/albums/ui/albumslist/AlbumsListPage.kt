@@ -10,40 +10,43 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import me.teyatha.albums.ui.albumslist.AlbumsListViewModel.ViewState
+import me.teyatha.core.LCE
 import me.teyatha.ds.Dimensions
 import me.teyatha.ds.theme.Typography
+import me.teyatha.ds.theme.components.LCEScreen
 
 @Composable
 fun AlbumsListPage(
     onAlbumClick: (albumId: String) -> Unit,
 ) {
     val viewModel: AlbumsListViewModel = viewModel()
-    val state = viewModel.state.collectAsStateWithLifecycle(
-        ViewState.Loading,
-    )
 
-    val feed = (state.value as? ViewState.Content)?.feed
+    val state = viewModel.state.collectAsStateWithLifecycle(LCE.Loading)
 
     Scaffold { contentPadding ->
-        LazyColumn(
-            modifier = Modifier.consumeWindowInsets(contentPadding)
-        ) {
-            item("header") {
-                Text(
-                    modifier = Modifier
-                        .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)
-                        .padding(
-                            top = 64.dp,
-                            bottom = 32.dp,
-                        ),
-                    text = feed?.author?.name ?: "",
-                    style = Typography.displayLarge,
-                )
-            }
-            feed?.albums?.forEach {
-                item(it.id) {
-                    AlbumCover(it, onClick = { onAlbumClick(it.id) })
+        LCEScreen(
+            lce = state.value,
+            onErrorRetry = { viewModel.onErrorRetry() },
+        ) { feed ->
+            LazyColumn(
+                modifier = Modifier.consumeWindowInsets(contentPadding)
+            ) {
+                item("header") {
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)
+                            .padding(
+                                top = 64.dp,
+                                bottom = 32.dp,
+                            ),
+                        text = feed.author.name,
+                        style = Typography.displayLarge,
+                    )
+                }
+                feed.albums.forEach {
+                    item(it.id) {
+                        AlbumCover(it, onClick = { onAlbumClick(it.id) })
+                    }
                 }
             }
         }

@@ -5,47 +5,51 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import me.teyatha.albums.domain.FeedList
 import me.teyatha.albums.domain.interactors.GetAlbumsFeedList
+import me.teyatha.core.LCE
 import javax.inject.Inject
 
 @HiltViewModel
 internal class AlbumsListViewModel @Inject constructor(
     private val getAlbumsFeedList: GetAlbumsFeedList,
 ) : ViewModel() {
-    sealed interface ViewState {
-        data object Loading : ViewState
-        data object Error : ViewState
-        data class Content(
-            val feed: FeedList,
-        ) : ViewState
-    }
 
-    val state = MutableStateFlow<ViewState>(ViewState.Loading)
+    val state = MutableStateFlow<LCE<FeedList>>(LCE.Loading)
     private val refreshSignal = Channel<Unit>()
 
     init {
         viewModelScope.launch {
             refreshSignal.receiveAsFlow()
                 .onStart { emit(Unit) }
-                .onEach { state.value = ViewState.Loading }
+                .onEach { state.value = LCE.Loading }
                 .flatMapConcat { getAlbumsFeedList() }
-                .map { result ->
+                .mapLatest {
+                    // Artificial delay to test loading screen
+                    delay(1_000)
+                    it
+                }
+                .mapLatest { result ->
                     result.getOrNull()
-                        ?.let { ViewState.Content(it) }
+                        ?.let { LCE.Content(it) }
                         ?: run {
                             Log.d("Error", "Error", result.exceptionOrNull())
-                            ViewState.Error
+                            LCE.Error
                         }
                 }
                 .collect { state.value = it }
         }
+    }
+
+    fun onErrorRetry() {
+        refreshSignal.trySend(Unit)
     }
 }
