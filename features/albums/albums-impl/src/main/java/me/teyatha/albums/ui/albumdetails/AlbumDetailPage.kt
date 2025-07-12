@@ -27,10 +27,7 @@ import me.teyatha.ds.theme.components.NavigationItem
 import me.teyatha.ds.theme.components.PropertyItem
 
 @Composable
-fun AlbumDetailPage(
-    key: AlbumDetailsScreen,
-    onBack: () -> Unit,
-) {
+fun AlbumDetailPage(key: AlbumDetailsScreen) {
     val viewModelStoreOwner = requireNotNull(
         LocalViewModelStoreOwner.current as? HasDefaultViewModelProviderFactory
     )

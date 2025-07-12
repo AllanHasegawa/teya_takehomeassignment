@@ -39,6 +39,11 @@ android {
     buildFeatures {
         compose = true
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -60,12 +65,19 @@ dependencies {
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
+    debugImplementation(libs.androidx.ui.tooling)
 
     testImplementation(libs.junit)
+    testImplementation(libs.hilt.android.test)
+    kspTest(libs.hilt.compiler)
+    testImplementation(libs.roboletric)
+    testImplementation(libs.androidx.ui.test.junit4.android)
+    testImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(kotlin("test"))
+    testImplementation(libs.ktor.client.mock)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }

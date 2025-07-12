@@ -56,18 +56,13 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.material)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.ktor.client.okhttp)
-    implementation(libs.ktor.client.contentnegotiation)
-    implementation(libs.ktor.client.json)
     implementation(libs.coil.compose)
     implementation(libs.coil.network)
+    implementation(libs.ktor.client.okhttp)
 
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))
     testImplementation(libs.mockk)
     testImplementation(libs.turbine)
     testImplementation(libs.kotlin.coroutines.test)
-
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }

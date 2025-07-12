@@ -2,6 +2,7 @@ package me.teyatha.albums.ui.albumdetails
 
 import android.util.Log
 import app.cash.turbine.test
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -10,6 +11,7 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.teyatha.albums.domain.Album
 import me.teyatha.albums.domain.interactors.GetAlbumById
+import me.teyatha.core.Delayer
 import me.teyatha.core.LCE
 import me.teyatha.core.Randomiser
 import org.junit.Before
@@ -35,6 +37,7 @@ internal class AlbumDetailsViewModelTest {
 
     private val getAlbumById: GetAlbumById = mockk()
     private val randomiser: Randomiser = mockk()
+    private val delayer: Delayer = mockk()
     private val dispatcher = StandardTestDispatcher()
 
     private fun undertest() =
@@ -42,6 +45,7 @@ internal class AlbumDetailsViewModelTest {
             albumId = album.id,
             getAlbumById = getAlbumById,
             randomiser = randomiser,
+            delayer = delayer,
             dispatcher = dispatcher,
         )
 
@@ -50,6 +54,7 @@ internal class AlbumDetailsViewModelTest {
         mockkStatic(Log::class)
         every { Log.d(any(), any(), any()) } returns 0
         every { randomiser.weightedBoolean(any()) } returns true
+        coEvery { delayer.delayForABit() } returns Unit
     }
 
     @Test

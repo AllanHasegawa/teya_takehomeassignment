@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import me.teyatha.albums.domain.Album
 import me.teyatha.albums.domain.interactors.GetAlbumById
+import me.teyatha.core.Delayer
 import me.teyatha.core.DispatcherIo
 import me.teyatha.core.LCE
 import me.teyatha.core.Randomiser
@@ -28,6 +29,7 @@ internal class AlbumDetailsViewModel @AssistedInject constructor(
     @Assisted private val albumId: String,
     private val getAlbumById: GetAlbumById,
     private val randomiser: Randomiser,
+    private val delayer: Delayer,
     @DispatcherIo dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
     @AssistedFactory
@@ -47,7 +49,7 @@ internal class AlbumDetailsViewModel @AssistedInject constructor(
                 .flatMapLatest { getAlbumById(albumId) }
                 .mapLatest {
                     // Fake processing time and error to test out error screen
-                    delay(2_000)
+                    delayer.delayForABit()
                     when (randomiser.weightedBoolean(chanceForTrue = 0.5f)) {
                         true -> it
                         false -> Result.success(null)

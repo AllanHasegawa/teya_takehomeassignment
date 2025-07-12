@@ -40,6 +40,9 @@ android {
 
 dependencies {
     api(libs.androidx.navigation3.runtime)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.client.contentnegotiation)
+    implementation(libs.ktor.client.json)
 
     implementation(libs.hilt.core)
     ksp(libs.hilt.compiler)

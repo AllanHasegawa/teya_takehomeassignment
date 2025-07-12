@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import me.teyatha.core.LCE
 import me.teyatha.ds.Dimensions
@@ -25,7 +26,9 @@ fun <T> LCEScreen(
     when (lce) {
         is LCE.Loading -> {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .testTag("Loader"),
             ) {
                 LinearProgressIndicator(
                     modifier = Modifier
@@ -36,9 +39,12 @@ fun <T> LCEScreen(
         }
 
         is LCE.Error -> {
-            Box(Modifier
-                .fillMaxSize()
-                .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)) {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .testTag("Error")
+                    .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)
+            ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()

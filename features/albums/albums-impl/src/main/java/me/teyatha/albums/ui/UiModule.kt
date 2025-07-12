@@ -25,8 +25,7 @@ internal object UiModule {
         }
 
         entry<AlbumDetailsScreen> { key ->
-            AlbumDetailPage(
-                key = key, onBack = { navigator.goBack() })
+            AlbumDetailPage(key = key)
         }
     }
 }

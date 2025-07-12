@@ -16,14 +16,15 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import me.teyatha.albums.domain.FeedList
 import me.teyatha.albums.domain.interactors.GetAlbumsFeedList
+import me.teyatha.core.Delayer
 import me.teyatha.core.DispatcherIo
 import me.teyatha.core.LCE
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 internal class AlbumsListViewModel @Inject constructor(
     private val getAlbumsFeedList: GetAlbumsFeedList,
+    private val delayer: Delayer,
     @DispatcherIo dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
@@ -38,7 +39,7 @@ internal class AlbumsListViewModel @Inject constructor(
                 .flatMapConcat { getAlbumsFeedList() }
                 .mapLatest {
                     // Artificial delay to test loading screen
-                    delay(1.seconds)
+                    delayer.delayForABit()
                     it
                 }
                 .mapLatest { result ->
