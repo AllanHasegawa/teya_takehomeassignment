@@ -7,16 +7,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import dagger.hilt.android.AndroidEntryPoint
 import me.teyatha.core.EntryProviderInstaller
 import me.teyatha.core.Navigator
-import me.teyatha.theme.TeyaTakeHomeAssignmentTheme
+import me.teyatha.ds.theme.TeyaTakeHomeAssignmentTheme
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -44,21 +41,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    _root_ide_package_.me.teyatha.theme.TeyaTakeHomeAssignmentTheme {
-        Greeting("Android")
     }
 }

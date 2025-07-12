@@ -43,6 +43,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":ds"))
     implementation(project(":features:albums:albums-api"))
     implementation(project(":features:albums:albums-impl"))
 

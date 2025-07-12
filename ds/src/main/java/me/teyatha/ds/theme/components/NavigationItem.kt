@@ -1,8 +1,9 @@
-package me.teyatha.ds
+package me.teyatha.ds.theme.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,16 +12,18 @@ import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import me.teyatha.ds.Dimensions.SCREEN_HORIZONTAL_PADDING
+import me.teyatha.ds.R
+import me.teyatha.ds.theme.TeyaTakeHomeAssignmentTheme
+import me.teyatha.ds.theme.Typography
 
 @Composable
 fun NavigationItem(
@@ -32,9 +35,9 @@ fun NavigationItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = SCREEN_HORIZONTAL_PADDING)
             .padding(vertical = 8.dp)
-            .border(0.5.dp, Color.Black, shape = RoundedCornerShape(12.dp))
+            .border(0.5.dp, Color.White, shape = RoundedCornerShape(12.dp))
+            .clickable(true, onClick = onClick)
             .requiredHeight(48.dp)
     ) {
         Text(
@@ -45,7 +48,7 @@ fun NavigationItem(
                 .align(Alignment.CenterVertically),
             text = text,
             maxLines = 1,
-            fontWeight = FontWeight.Normal,
+            style = Typography.bodyMedium
         )
 
         if (icon != null) {
@@ -64,22 +67,26 @@ fun NavigationItem(
 @Preview
 @Composable
 internal fun NavigationItemPreviewNoIcon() {
-    Box(Modifier.background(Color.White)) {
-        NavigationItem(
-            text = "Navigate to there",
-            onClick = {},
-        )
+    TeyaTakeHomeAssignmentTheme {
+        Box(Modifier.background(MaterialTheme.colorScheme.background)) {
+            NavigationItem(
+                text = "Navigate to there",
+                onClick = {},
+            )
+        }
     }
 }
 
 @Preview
 @Composable
 internal fun NavigationItemPreviewWithIcon() {
-    Box(Modifier.background(Color.White)) {
-        NavigationItem(
-            text = "Navigate to there",
-            onClick = {},
-            icon = R.drawable.ic_chevron_right
-        )
+    TeyaTakeHomeAssignmentTheme {
+        Box(Modifier.background(MaterialTheme.colorScheme.background)) {
+            NavigationItem(
+                text = "Navigate to there",
+                onClick = {},
+                icon = R.drawable.ic_chevron_right
+            )
+        }
     }
 }

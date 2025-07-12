@@ -7,13 +7,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import me.teyatha.albums.ui.albumslist.AlbumsListViewModel.ViewState
 import me.teyatha.ds.Dimensions
+import me.teyatha.ds.theme.Typography
 
 @Composable
 fun AlbumsListPage(
@@ -30,7 +29,7 @@ fun AlbumsListPage(
         LazyColumn(
             modifier = Modifier.consumeWindowInsets(contentPadding)
         ) {
-            item {
+            item("header") {
                 Text(
                     modifier = Modifier
                         .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)
@@ -39,15 +38,12 @@ fun AlbumsListPage(
                             bottom = 32.dp,
                         ),
                     text = feed?.author?.name ?: "",
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.SemiBold,
+                    style = Typography.displayLarge,
                 )
             }
             feed?.albums?.forEach {
-                item {
-                    AlbumCover(it, onClick = {
-                        onAlbumClick("123")
-                    })
+                item(it.id) {
+                    AlbumCover(it, onClick = { onAlbumClick(it.id) })
                 }
             }
         }

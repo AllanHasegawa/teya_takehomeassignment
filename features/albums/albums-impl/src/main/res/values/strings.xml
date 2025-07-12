@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="property_price_title">Price</string>
+    <string name="property_release_title">Release date</string>
+    <string name="property_link_title">Go to website</string>
+</resources>

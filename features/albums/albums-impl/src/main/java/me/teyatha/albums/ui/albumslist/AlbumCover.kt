@@ -12,14 +12,12 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
 import coil3.compose.AsyncImagePreviewHandler
@@ -29,6 +27,7 @@ import coil3.request.SuccessResult
 import me.teyatha.albums.R
 import me.teyatha.albums.domain.Album
 import me.teyatha.ds.Dimensions
+import me.teyatha.ds.theme.Typography
 
 @Composable
 internal fun AlbumCover(
@@ -46,13 +45,6 @@ internal fun AlbumCover(
             )
     }
 
-    val backgroundGradientStops = arrayOf(
-        0.0f to Color(0.3f, 0.3f, 0f, 0.0f),
-        0.5f to Color(0f, 0f, 0.0f, 0.35f),
-        0.6f to Color(0f, 0f, 0.0f, 0.4f),
-        0.9f to Color(0f, 0.0f, 0f, 0.4f),
-        1f to Color(0.3f, 0f, 0.2f, 0.0f)
-    )
     Box(
         modifier =
             Modifier
@@ -63,9 +55,7 @@ internal fun AlbumCover(
         AsyncImage(
             modifier = Modifier
                 .fillMaxWidth(),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(image.url)
-                .build(),
+            model = image.url,
             contentDescription = null,
             contentScale = ContentScale.FillWidth,
         )
@@ -75,16 +65,15 @@ internal fun AlbumCover(
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 32.dp)
-                .background(Brush.verticalGradient(colorStops = backgroundGradientStops))
+                .background(Color.Black.copy(alpha = 0.4f))
         ) {
             Text(
                 modifier =
                     Modifier
                         .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)
-                        .padding(top = 24.dp),
+                        .padding(top = 16.dp),
                 text = album.name,
-                fontSize = 22.sp,
-                color = Color.White,
+                style = Typography.bodyLarge,
             )
             Text(
                 modifier =
@@ -92,8 +81,7 @@ internal fun AlbumCover(
                         .padding(horizontal = Dimensions.SCREEN_HORIZONTAL_PADDING)
                         .padding(top = 4.dp, bottom = 16.dp),
                 text = album.artist,
-                fontSize = 16.sp,
-                color = Color.White,
+                style = Typography.bodyMedium,
             )
         }
     }
@@ -120,6 +108,7 @@ internal fun AlbumCoverPreview() {
         CompositionLocalProvider(LocalAsyncImagePreviewHandler provides previewHandler) {
             AlbumCover(
                 album = Album(
+                    id = "id",
                     name = "Album name",
                     images = listOf(Album.Image("", 170)),
                     priceFormatted = "",

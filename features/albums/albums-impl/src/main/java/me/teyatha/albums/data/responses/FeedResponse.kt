@@ -34,6 +34,7 @@ internal data class FeedResponse(
         @SerialName("im:image") val image: List<PropertyResponse>,
         @SerialName("im:price") val price: PropertyResponse,
         @SerialName("link") val link: PropertyResponse,
+        @SerialName("id") val id: PropertyResponse,
         @SerialName("im:artist") val artist: PropertyResponse,
         @SerialName("im:releaseDate") val releaseDate: PropertyResponse,
     )

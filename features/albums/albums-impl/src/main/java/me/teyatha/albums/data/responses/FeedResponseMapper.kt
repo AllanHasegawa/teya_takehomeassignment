@@ -21,6 +21,7 @@ internal class FeedResponseMapper @Inject constructor() {
 
     private fun FeedResponse.EntryResponse.toAlbumDomain(): Album =
         Album(
+            id = id.label!!,
             name = name.label!!,
             images = image.map {
                 Album.Image(

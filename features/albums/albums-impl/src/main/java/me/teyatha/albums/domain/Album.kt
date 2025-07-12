@@ -1,6 +1,7 @@
 package me.teyatha.albums.domain
 
 internal data class Album(
+    val id: String,
     val name: String,
     val images: List<Image>,
     val priceFormatted: String,
