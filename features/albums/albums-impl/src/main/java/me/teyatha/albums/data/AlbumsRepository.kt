@@ -19,7 +19,7 @@ internal class AlbumsRepository @Inject constructor(
     }
 
     /**
-     * Returning as [Flow] even when a simple suspend would suffice
+     * Returning as [Flow] even when a simple suspend function would suffice
      * as it would make it easy to handle caching in the future,
      * or any side-effect that would alter the data.
      */
